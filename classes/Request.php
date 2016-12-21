@@ -69,6 +69,19 @@ class Request
 		
 		return static::getInstance()->query->get($strKey);
 	}
+
+    /**
+     * Returns true if the get parameter is defined.
+     *
+     * @param string $strKey The key
+     *
+     * @return bool true if the parameter exists, false otherwise
+     */
+    public static function hasGet($strKey)
+    {
+        return static::getInstance()->query->has($strKey);
+    }
+
 	/**
 	 * Shorthand getter for request arguments ($_POST)
 	 * @param $strKey
@@ -84,6 +97,18 @@ class Request
 		
 		return static::getInstance()->request->get($strKey);
 	}
+
+    /**
+     * Returns true if the post parameter is defined.
+     *
+     * @param string $strKey The key
+     *
+     * @return bool true if the parameter exists, false otherwise
+     */
+	public static function hasPost($strKey)
+    {
+        return static::getInstance()->request->has($strKey);
+    }
 	
 	/**
 	 * Prevent direct instantiation (Singleton)
