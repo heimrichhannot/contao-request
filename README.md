@@ -12,6 +12,12 @@ Contao | Request
 ---- | -----------
 `\Input::get($strKey)` | `\HeimrichHannot\Request\Request::getGet($strKey)`
 `\Input::post($strKey)` | `\HeimrichHannot\Request\Request::getPost($strKey)`
+`\Input::postHtml($strKey)` | `\HeimrichHannot\Request\Request::getPostHtml($strKey)`
+`\Input::postRaw($strKey)` | `\HeimrichHannot\Request\Request::getPostRaw($strKey)`
+`\Input::setPost($strKey, $varValue)` | `\HeimrichHannot\Request\Request::setPost($strKey, $varValue)`
+`\Input::setGet($strKey, $varValue)` | `\HeimrichHannot\Request\Request::setGet($strKey, $varValue)`
+`isset($_GET[$strKey])` | `\HeimrichHannot\Request\Request::hasGet($strKey)`
+`isset($_POST[$strKey])` | `\HeimrichHannot\Request\Request::hasPost($strKey)`
 `\Environment::get('isAjaxRequest')` | `\HeimrichHannot\Request\Request::getInstance()->isXmlHttpRequest()`
 
 
