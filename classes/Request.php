@@ -443,6 +443,10 @@ class Request
         $varValue = \StringUtil::decodeEntities($varValue);
 
         $varValue = preg_replace('/(&#[A-Za-z0-9]+);?/i', '$1;', $varValue);
+
+        // fix: "><script>alert('xss')</script> or '></SCRIPT>">'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>
+        $varValue = preg_replace('/(?>["|\']>)+(<[^\/^>]+>.*)/', '$1', $varValue);
+
         $varValue = \Input::xssClean($varValue, $blnStrictMode);
 
         return $varValue;

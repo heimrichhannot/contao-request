@@ -225,9 +225,9 @@ class PostTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 '"><script>alert(\'xss\')</script>',
-                '"&gt;&#60;script&#62;alert&#40;\'xss\'&#41;&#60;/script&#62;',
-                '"><script>alert(\'xss\')</script>',
-                '"&gt;&#60;script&#62;alert&#40;\'xss\'&#41;&#60;/script&#62;',
+                '&#60;script&#62;alert&#40;\'xss\'&#41;&#60;/script&#62;',
+                '<script>alert(\'xss\')</script>',
+                '&#60;script&#62;alert&#40;\'xss\'&#41;&#60;/script&#62;',
             ],
             [
                 '%253Cscript%253Ealert(\'XSS\')%253C%252Fscript%253E',
@@ -269,9 +269,9 @@ class PostTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 '></SCRIPT>">\'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>',
-                '&gt;"&gt;\'&gt;&#60;script&#62;alert&#40;String.fromCharCode&#40;88,83,83&#41;&#41;&#60;/script&#62;',
-                '></SCRIPT>">\'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>',
-                '&gt;"&gt;\'&gt;&#60;script&#62;alert&#40;String.fromCharCode&#40;88,83,83&#41;&#41;&#60;/script&#62;',
+                '&gt;"&gt;&#60;script&#62;alert&#40;String.fromCharCode&#40;88,83,83&#41;&#41;&#60;/script&#62;',
+                '></SCRIPT>"><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>',
+                '&gt;"&gt;&#60;script&#62;alert&#40;String.fromCharCode&#40;88,83,83&#41;&#41;&#60;/script&#62;',
             ],
             [
                 ',\';!—"<XSS>=&{()}',
