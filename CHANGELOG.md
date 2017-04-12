@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - 2017-04-12
+
+### Fixed
+- xss security fixes, and prevent html document wrapper removal from `Request::getPost()`
+
 ## [1.1.1] - 2017-04-11
 
 ### Fixed

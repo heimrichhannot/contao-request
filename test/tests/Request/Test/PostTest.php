@@ -10,13 +10,28 @@
 
 namespace HeimrichHannot\Request\Test;
 
-use HeimrichHannot\FormHybrid\Test\TestForm;
 use HeimrichHannot\Request\Request;
 
 class PostTest extends \PHPUnit_Framework_TestCase
 {
+    public function testPostHtmlPage()
+    {
+        $strHtml =
+            '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Title of document</title></head><body>some content</body></html>';
+
+        Request::setPost('test', $strHtml);
+
+        $strActual = Request::getPost('test', true);
+
+        $strExpected = '&#60;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"&#62;
+&#60;html xmlns&#61;"http://www.w3.org/1999/xhtml"&#62;&#60;head&#62;&#60;meta http-equiv&#61;"Content-Type" content&#61;"text/html; charset&#61;UTF-8"&#62;&#60;title&#62;Title of document&#60;/title&#62;&#60;/head&#62;&#60;body&#62;some content&#60;/body&#62;&#60;/html&#62;
+';
+        $this->assertSame($strExpected, $strActual);
+    }
+
     /**
      * Binary uuid should returned as binary
+     *
      * @test
      */
     public function testPostUuidArray()
@@ -26,7 +41,9 @@ class PostTest extends \PHPUnit_Framework_TestCase
         $uuid3 = \Database::getInstance()->getUuid();
 
         $arrUuids = [
-            $uuid1, $uuid2, $uuid3
+            $uuid1,
+            $uuid2,
+            $uuid3,
         ];
 
         Request::setPost('test', $arrUuids);
@@ -38,6 +55,7 @@ class PostTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Binary uuid should returned as binary
+     *
      * @test
      */
     public function testPostUuidValue()
@@ -83,8 +101,7 @@ class PostTest extends \PHPUnit_Framework_TestCase
     public function testHtmlPostWithAllowedTagsAndDecodeEntities()
     {
         $strInput    = '<p>foo <5 hier steht viel Text<span><b>Test <a href="http://example.org" onclick="alert(\'xss\')">Link</a></b></span></p><span> FOOBAR</span>';
-        $strExpected =
-            '<p>foo <5 hier steht viel Text<span>&#60;b&#62;Test Link&#60;/b&#62;</span></p><span> FOOBAR</span>';
+        $strExpected = '<p>foo <5 hier steht viel Text<span>&#60;b&#62;Test Link&#60;/b&#62;</span></p><span> FOOBAR</span>';
 
         Request::setPost('test', $strInput);
 
@@ -269,9 +286,9 @@ class PostTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 '></SCRIPT>">\'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>',
-                '&gt;"&gt;&#60;script&#62;alert&#40;String.fromCharCode&#40;88,83,83&#41;&#41;&#60;/script&#62;',
-                '></SCRIPT>"><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>',
-                '&gt;"&gt;&#60;script&#62;alert&#40;String.fromCharCode&#40;88,83,83&#41;&#41;&#60;/script&#62;',
+                '&gt;&#60;script&#62;alert&#40;String.fromCharCode&#40;88,83,83&#41;&#41;&#60;/script&#62;',
+                '></SCRIPT><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>',
+                '&gt;&#60;script&#62;alert&#40;String.fromCharCode&#40;88,83,83&#41;&#41;&#60;/script&#62;',
             ],
             [
                 ',\';!—"<XSS>=&{()}',
@@ -294,9 +311,9 @@ class PostTest extends \PHPUnit_Framework_TestCase
             ['"><%00script', '"&gt;&lt;%00script', '"><%00script', '"&gt;&lt;%00script'],
             [
                 '"><%tag style="xss:expression(alert(123))">',
-                '"&gt;',
-                '"><%tag style="xss:expression(alert(123))">',
-                '"&gt;',
+                '',
+                '<%tag style="xss:expression(alert(123))">',
+                '',
             ],
             [
                 '">%uff1cscript%uff1ealert(\'XSS\');%uff1c/script%uff1e',
@@ -312,9 +329,9 @@ class PostTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 '"><%00 style="xss:expression(alert(123))">',
-                '"&gt;',
-                '"><%00 style="xss:expression(alert(123))">',
-                '"&gt;',
+                '',
+                '<%00 style="xss:expression(alert(123))">',
+                '',
             ],
         ];
 

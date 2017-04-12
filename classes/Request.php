@@ -445,7 +445,7 @@ class Request
         $varValue = preg_replace('/(&#[A-Za-z0-9]+);?/i', '$1;', $varValue);
 
         // fix: "><script>alert('xss')</script> or '></SCRIPT>">'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>
-        $varValue = preg_replace('/(?>["|\']>)+(<[^\/^>]+>.*)/', '$1', $varValue);
+        $varValue = preg_replace('/(?<!\w)(?>["|\']>)+(<[^\/^>]+>.*)/', '$1', $varValue);
 
         $varValue = \Input::xssClean($varValue, $blnStrictMode);
 
@@ -496,7 +496,12 @@ class Request
             $varValue = str_replace('\\0', '', $varValue);
         }
 
-        $objCrawler = new HtmlPageCrawler('<div id="tidyWrapperx123x123xawec3">' . $varValue . '</div>');
+        $objCrawler = new HtmlPageCrawler($varValue);
+
+        if (!$objCrawler->isHtmlDocument())
+        {
+            $objCrawler = new HtmlPageCrawler('<div id="tidyWrapperx123x123xawec3">' . $varValue . '</div>');
+        }
 
         $arrAllowedTags = explode('<', str_replace('>', '', $strAllowedTags));
         $arrAllowedTags = array_filter($arrAllowedTags);
@@ -531,10 +536,17 @@ class Request
 
             }
             // unwrap div#tidyWrapper and set value to its innerHTML
-            $varValue = $objCrawler->filter('div#tidyWrapperx123x123xawec3')->getInnerHtml();
+            if (!$objCrawler->isHtmlDocument())
+            {
+                $varValue = $objCrawler->filter('div#tidyWrapperx123x123xawec3')->getInnerHtml();
+            }
+            else
+            {
+                $varValue = $objCrawler->saveHTML();
+            }
 
             // trim last [nbsp] occurance
-            $varValue = preg_replace('@(\[nbsp\])+@', '', $objCrawler->filter('div#tidyWrapperx123x123xawec3')->getInnerHtml());
+            $varValue = preg_replace('@(\[nbsp\])+@', '', $varValue);
 
         } catch (SyntaxErrorException $e)
         {

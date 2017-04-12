@@ -3,7 +3,7 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2016 Leo Feyer
+ * Copyright (c) 2005-2017 Leo Feyer
  *
  * @license LGPL-3.0+
  */
@@ -23,6 +23,9 @@ ClassLoader::addNamespaces(array
  */
 ClassLoader::addClasses(array
 (
+	// Test
+	'HeimrichHannot\Request\Test\PostTest' => 'system/modules/request/test/tests/Request/Test/PostTest.php',
+
 	// Classes
-	'HeimrichHannot\Request\Request' => 'system/modules/request/classes/Request.php',
+	'HeimrichHannot\Request\Request'       => 'system/modules/request/classes/Request.php',
 ));
