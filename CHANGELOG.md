@@ -1,5 +1,10 @@
-# Change Log
+# Changelog
 All notable changes to this project will be documented in this file.
+
+## [1.1.3] - 2017-05-09
+
+### Fixed
+- fixed null $_GET, $_POST error
 
 ## [1.1.2] - 2017-04-12
 

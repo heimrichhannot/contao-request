@@ -40,6 +40,16 @@ class Request
     {
         if (static::$objInstance === null)
         {
+            if ($_GET == null)
+            {
+                $_GET = [];
+            }
+
+            if ($_POST == null)
+            {
+                $_POST = [];
+            }
+
             static::$objInstance = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
         }
 
