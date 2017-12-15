@@ -28,13 +28,24 @@
     "wa72/htmlpagedom": "^1.3"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.7@dev"
+    "phpunit/phpunit": "^6.0"
   },
   "autoload": {
     "psr-0": {
       "HeimrichHannot\\Request\\": [
-        "classes/"
+        "src/"
       ]
+    },
+    "psr-4": {
+      "HeimrichHannot\\Request\\": "src/"
+    },
+    "classmap": [
+      "src"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "HeimrichHannot\\Request\\Test\\": "tests/"
     }
   },
   "extra": {

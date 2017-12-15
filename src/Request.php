@@ -38,19 +38,26 @@ class Request
      */
     public static function getInstance()
     {
-        if (static::$objInstance === null)
-        {
-            if ($_GET == null)
-            {
+        if (null === static::$objInstance) {
+            if ($_GET == null) {
                 $_GET = [];
             }
 
-            if ($_POST == null)
-            {
+            if ($_POST == null) {
                 $_POST = [];
             }
 
             static::$objInstance = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
+        }
+
+        // handle \Contao\Input unused $_GET parameters
+        if (!empty($_GET)) {
+            static::$objInstance->query->add($_GET);
+        }
+
+        // handle \Contao\Input unused $_POST parameters
+        if (!empty($_POST)) {
+            static::$objInstance->request->add($_GET);
         }
 
         return static::$objInstance;
@@ -84,12 +91,9 @@ class Request
 
         $strKey = \Input::cleanKey($strKey);
 
-        if ($varValue === null)
-        {
+        if ($varValue === null) {
             static::getInstance()->query->remove($strKey);
-        }
-        else
-        {
+        } else {
             static::getInstance()->query->set($strKey, $varValue);
         }
     }
@@ -105,12 +109,9 @@ class Request
     {
         $strKey = \Input::cleanKey($strKey);
 
-        if ($varValue === null)
-        {
+        if ($varValue === null) {
             static::getInstance()->request->remove($strKey);
-        }
-        else
-        {
+        } else {
             static::getInstance()->request->set($strKey, $varValue);
         }
     }
@@ -127,14 +128,11 @@ class Request
      */
     public static function getGet($strKey = null, $blnDecodeEntities = false, $blnTidy = false)
     {
-        if ($strKey === null)
-        {
+        if ($strKey === null) {
             $arrValues = static::getInstance()->query;
 
-            if ($blnDecodeEntities)
-            {
-                foreach ($arrValues as $key => &$varValue)
-                {
+            if ($blnDecodeEntities) {
+                foreach ($arrValues as $key => &$varValue) {
                     $varValue = static::clean($varValue, $blnDecodeEntities, true, $blnTidy);
                 }
             }
@@ -159,15 +157,12 @@ class Request
     public static function clean($varValue, $blnDecodeEntities = false, $blnEncodeInsertTags = true, $blnTidy = true, $blnStrictMode = true)
     {
         // do not clean, otherwise empty string will be returned, not null
-        if ($varValue === null)
-        {
+        if ($varValue === null) {
             return $varValue;
         }
 
-        if (is_array($varValue))
-        {
-            foreach ($varValue as $i => $childValue)
-            {
+        if (is_array($varValue)) {
+            foreach ($varValue as $i => $childValue) {
                 $varValue[$i] = static::clean($childValue, $blnDecodeEntities, $blnEncodeInsertTags, $blnTidy, $blnStrictMode);
             }
 
@@ -175,31 +170,25 @@ class Request
         }
 
         // do not handle binary uuid
-        if (\Validator::isUuid($varValue))
-        {
+        if (\Validator::isUuid($varValue)) {
             return $varValue;
         }
 
         $varValue = static::xssClean($varValue, $blnStrictMode);
 
-        if ($blnTidy)
-        {
+        if ($blnTidy) {
             $varValue = static::tidy($varValue);
-        }
-        else
-        {
+        } else {
             // decodeEntities for tidy is more complex, because non allowed tags should be displayed as readable text, not as html entity
             $varValue = \Input::decodeEntities($varValue);
         }
 
         // do not encodeSpecialChars when tidy did run, otherwise non allowed tags will be encoded twice
-        if (!$blnDecodeEntities && !$blnTidy)
-        {
+        if (!$blnDecodeEntities && !$blnTidy) {
             $varValue = \Input::encodeSpecialChars($varValue);
         }
 
-        if ($blnEncodeInsertTags)
-        {
+        if ($blnEncodeInsertTags) {
             $varValue = \Input::encodeInsertTags($varValue);
         }
 
@@ -222,15 +211,12 @@ class Request
     public static function cleanHtml($varValue, $blnDecodeEntities = false, $blnEncodeInsertTags = true, $strAllowedTags = null, $blnTidy = true, $blnStrictMode = true)
     {
         // do not clean, otherwise empty string will be returned, not null
-        if ($varValue === null)
-        {
+        if ($varValue === null) {
             return $varValue;
         }
 
-        if (is_array($varValue))
-        {
-            foreach ($varValue as $i => $childValue)
-            {
+        if (is_array($varValue)) {
+            foreach ($varValue as $i => $childValue) {
                 $varValue[$i] = static::cleanHtml($childValue, $blnDecodeEntities, $blnEncodeInsertTags, $strAllowedTags, $blnTidy, $blnStrictMode);
             }
 
@@ -238,31 +224,25 @@ class Request
         }
 
         // do not handle binary uuid
-        if (\Validator::isUuid($varValue))
-        {
+        if (\Validator::isUuid($varValue)) {
             return $varValue;
         }
 
         $varValue = static::xssClean($varValue, $blnStrictMode);
 
-        if ($blnTidy)
-        {
+        if ($blnTidy) {
             $varValue = static::tidy($varValue, $strAllowedTags, $blnDecodeEntities);
-        }
-        else
-        {
+        } else {
             // decodeEntities for tidy is more complex, because non allowed tags should be displayed as readable text, not as html entity
             $varValue = \Input::decodeEntities($varValue);
         }
 
         // do not encodeSpecialChars when tidy did run, otherwise non allowed tags will be encoded twice
-        if (!$blnDecodeEntities && !$blnTidy)
-        {
+        if (!$blnDecodeEntities && !$blnTidy) {
             $varValue = \Input::encodeSpecialChars($varValue);
         }
 
-        if ($blnEncodeInsertTags)
-        {
+        if ($blnEncodeInsertTags) {
             $varValue = \Input::encodeInsertTags($varValue);
         }
 
@@ -282,15 +262,12 @@ class Request
     public static function cleanRaw($varValue, $blnEncodeInsertTags = true, $blnTidy = false, $blnStrictMode = false)
     {
         // do not clean, otherwise empty string will be returned, not null
-        if ($varValue === null)
-        {
+        if ($varValue === null) {
             return $varValue;
         }
 
-        if (is_array($varValue))
-        {
-            foreach ($varValue as $i => $childValue)
-            {
+        if (is_array($varValue)) {
+            foreach ($varValue as $i => $childValue) {
                 $varValue[$i] = static::cleanRaw($childValue, $blnEncodeInsertTags, $blnTidy, $blnStrictMode);
             }
 
@@ -298,22 +275,19 @@ class Request
         }
 
         // do not handle binary uuid
-        if (\Validator::isUuid($varValue))
-        {
+        if (\Validator::isUuid($varValue)) {
             return $varValue;
         }
 
         $varValue = static::xssClean($varValue, $blnStrictMode);
 
-        if ($blnTidy)
-        {
+        if ($blnTidy) {
             $varValue = static::tidy($varValue);
         }
 
         $varValue = \Input::preserveBasicEntities($varValue);
 
-        if ($blnEncodeInsertTags)
-        {
+        if ($blnEncodeInsertTags) {
             $varValue = \Input::encodeInsertTags($varValue);
         }
 
@@ -344,14 +318,11 @@ class Request
      */
     public static function getPost($strKey = null, $blnDecodeEntities = false, $blnTidy = true, $blnStrictMode = true)
     {
-        if ($strKey === null)
-        {
+        if ($strKey === null) {
             $arrValues = static::getInstance()->request;
 
-            if (is_array($arrValues))
-            {
-                foreach ($arrValues as $key => &$varValue)
-                {
+            if (is_array($arrValues)) {
+                foreach ($arrValues as $key => &$varValue) {
                     $varValue = static::clean($varValue, $blnDecodeEntities, TL_MODE != 'BE', $blnTidy, $blnStrictMode);
                 }
             }
@@ -375,14 +346,11 @@ class Request
      */
     public static function getPostHtml($strKey = null, $blnDecodeEntities = false, $strAllowedTags = null, $blnTidy = true, $blnStrictMode = true)
     {
-        if ($strKey === null)
-        {
+        if ($strKey === null) {
             $arrValues = static::getInstance()->request;
 
-            if (is_array($arrValues))
-            {
-                foreach ($arrValues as $key => &$varValue)
-                {
+            if (is_array($arrValues)) {
+                foreach ($arrValues as $key => &$varValue) {
                     $varValue = static::cleanHtml($varValue, $blnDecodeEntities, TL_MODE != 'BE', $strAllowedTags, $blnTidy, $blnStrictMode);
                 }
             }
@@ -405,14 +373,11 @@ class Request
      */
     public static function getPostRaw($strKey = null, $blnTidy = false, $blnStrictMode = false)
     {
-        if ($strKey === null)
-        {
+        if ($strKey === null) {
             $arrValues = static::getInstance()->request;
 
-            if (is_array($arrValues))
-            {
-                foreach ($arrValues as $key => &$varValue)
-                {
+            if (is_array($arrValues)) {
+                foreach ($arrValues as $key => &$varValue) {
                     $varValue = static::cleanRaw($varValue, TL_MODE != 'BE', $blnTidy, $blnStrictMode);
                 }
             }
@@ -434,10 +399,8 @@ class Request
      */
     public static function xssClean($varValue, $blnStrictMode = false)
     {
-        if (is_array($varValue))
-        {
-            foreach ($varValue as $key => $value)
-            {
+        if (is_array($varValue)) {
+            foreach ($varValue as $key => $value) {
                 $varValue[$key] = static::xssClean($value, $blnStrictMode);
             }
 
@@ -445,8 +408,7 @@ class Request
         }
 
         // do not xss clean binary uuids
-        if (\Validator::isBinaryUuid($varValue))
-        {
+        if (\Validator::isBinaryUuid($varValue)) {
             return $varValue;
         }
 
@@ -473,8 +435,7 @@ class Request
      */
     public static function tidy($varValue, $strAllowedTags = '', $blnDecodeEntities = false)
     {
-        if (!$varValue)
-        {
+        if (!$varValue) {
             return $varValue;
         }
 
@@ -482,14 +443,9 @@ class Request
         $varValue = preg_replace('@\/(\s+)>@', '/>', $varValue);
 
         // Encode opening tag arrow brackets
-        $varValue = preg_replace_callback(
-            '/<(?(?=!--)!--[\s\S]*--|(?(?=\?)\?[\s\S]*\?|(?(?=\/)\/[^.\-\d][^\/\]\'"[!#$%&()*+,;<=>?@^`{|}~ ]*|[^.\-\d][^\/\]\'"[!#$%&()*+,;<=>?@^`{|}~ ]*(?:\s[^.\-\d][^\/\]\'"[!#$%&()*+,;<=>?@^`{|}~ ]*(?:=(?:"[^"]*"|\'[^\']*\'|[^\'"<\s]*))?)*)\s?\/?))>/',
-            function ($matches)
-            {
-                return substr_replace($matches[0], '&lt;', 0, 1);
-            },
-            $varValue
-        );
+        $varValue = preg_replace_callback('/<(?(?=!--)!--[\s\S]*--|(?(?=\?)\?[\s\S]*\?|(?(?=\/)\/[^.\-\d][^\/\]\'"[!#$%&()*+,;<=>?@^`{|}~ ]*|[^.\-\d][^\/\]\'"[!#$%&()*+,;<=>?@^`{|}~ ]*(?:\s[^.\-\d][^\/\]\'"[!#$%&()*+,;<=>?@^`{|}~ ]*(?:=(?:"[^"]*"|\'[^\']*\'|[^\'"<\s]*))?)*)\s?\/?))>/', function ($matches) {
+            return substr_replace($matches[0], '&lt;', 0, 1);
+        }, $varValue);
 
         // Encode less than signs that are no tags with [lt]
         $varValue = str_replace('<', '[lt]', $varValue);
@@ -501,71 +457,57 @@ class Request
         $varValue = str_replace(['&lt;!--', '&lt;!['], ['<!--', '<!['], $varValue);
 
         // Recheck for encoded null bytes
-        while (strpos($varValue, '\\0') !== false)
-        {
+        while (strpos($varValue, '\\0') !== false) {
             $varValue = str_replace('\\0', '', $varValue);
         }
 
         $objCrawler = new HtmlPageCrawler($varValue);
 
-        if (!$objCrawler->isHtmlDocument())
-        {
+        if (!$objCrawler->isHtmlDocument()) {
             $objCrawler = new HtmlPageCrawler('<div id="tidyWrapperx123x123xawec3">' . $varValue . '</div>');
         }
 
         $arrAllowedTags = explode('<', str_replace('>', '', $strAllowedTags));
         $arrAllowedTags = array_filter($arrAllowedTags);
 
-        try
-        {
-            if (!empty($arrAllowedTags))
-            {
-                $objCrawler->filter('*')->each(
-                    function ($node, $i) use ($arrAllowedTags)
-                    {
-                        /** @var $node  HtmlPageCrawler */
+        try {
+            if (!empty($arrAllowedTags)) {
+                $objCrawler->filter('*')->each(function ($node, $i) use ($arrAllowedTags) {
+                    /** @var $node  HtmlPageCrawler */
 
-                        // skip wrapper
-                        if ($node->getAttribute('id') == 'tidyWrapperx123x123xawec3')
-                        {
-                            return $node;
-                        }
-
-                        if (!in_array($node->getNode(0)->tagName, $arrAllowedTags))
-                        {
-                            $strHTML = $node->saveHTML();
-                            $strHTML = str_replace(['<', '>'], ['[[xlt]]', '[[xgt]]'], $strHTML);
-
-                            // remove unwanted tags and return the element text
-                            return $node->replaceWith($strHTML);
-                        }
-
+                    // skip wrapper
+                    if ($node->getAttribute('id') == 'tidyWrapperx123x123xawec3') {
                         return $node;
                     }
-                );
+
+                    if (!in_array($node->getNode(0)->tagName, $arrAllowedTags)) {
+                        $strHTML = $node->saveHTML();
+                        $strHTML = str_replace(['<', '>'], ['[[xlt]]', '[[xgt]]'], $strHTML);
+
+                        // remove unwanted tags and return the element text
+                        return $node->replaceWith($strHTML);
+                    }
+
+                    return $node;
+                });
 
             }
             // unwrap div#tidyWrapper and set value to its innerHTML
-            if (!$objCrawler->isHtmlDocument())
-            {
+            if (!$objCrawler->isHtmlDocument()) {
                 $varValue = $objCrawler->filter('div#tidyWrapperx123x123xawec3')->getInnerHtml();
-            }
-            else
-            {
+            } else {
                 $varValue = $objCrawler->saveHTML();
             }
 
             // trim last [nbsp] occurance
             $varValue = preg_replace('@(\[nbsp\])+@', '', $varValue);
 
-        } catch (SyntaxErrorException $e)
-        {
+        } catch (SyntaxErrorException $e) {
         }
 
         $varValue = static::restoreBasicEntities($varValue, $blnDecodeEntities);
 
-        if (!$blnDecodeEntities)
-        {
+        if (!$blnDecodeEntities) {
             $varValue = \Input::encodeSpecialChars($varValue);
         }
 
@@ -589,8 +531,7 @@ class Request
     {
         $strBuffer = str_replace(['[&]', '[&amp;]', '[lt]', '[gt]', '[nbsp]', '[-]'], ['&amp;', '&amp;', '&lt;', '&gt;', '&nbsp;', '&shy;'], $strBuffer);
 
-        if ($blnDecodeEntities)
-        {
+        if ($blnDecodeEntities) {
             $strBuffer = \StringUtil::decodeEntities($strBuffer);
         }
 

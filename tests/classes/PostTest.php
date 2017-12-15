@@ -11,8 +11,9 @@
 namespace HeimrichHannot\Request\Test;
 
 use HeimrichHannot\Request\Request;
+use PHPUnit\Framework\TestCase;
 
-class PostTest extends \PHPUnit_Framework_TestCase
+class PostTest extends TestCase
 {
     public function testPostHtmlPage()
     {
@@ -36,9 +37,9 @@ class PostTest extends \PHPUnit_Framework_TestCase
      */
     public function testPostUuidArray()
     {
-        $uuid1 = \Database::getInstance()->getUuid();
-        $uuid2 = \Database::getInstance()->getUuid();
-        $uuid3 = \Database::getInstance()->getUuid();
+        $uuid1 = \Contao\StringUtil::uuidToBin('9c6697cf-c874-11e7-8bb3-a08cfddc0261');
+        $uuid2 = \Contao\StringUtil::uuidToBin('b8b30475-c4a9-11e7-a954-a08cfddc0261');
+        $uuid3 = \Contao\StringUtil::uuidToBin('3523ce67-e0ed-11e7-bc3c-a08cfddc0261');
 
         $arrUuids = [
             $uuid1,
@@ -60,7 +61,7 @@ class PostTest extends \PHPUnit_Framework_TestCase
      */
     public function testPostUuidValue()
     {
-        $uuid = \Database::getInstance()->getUuid();
+        $uuid = \Contao\StringUtil::uuidToBin('9c6697cf-c874-11e7-8bb3-a08cfddc0261');
 
         Request::setPost('test', $uuid);
 

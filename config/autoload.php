@@ -23,9 +23,6 @@ ClassLoader::addNamespaces(array
  */
 ClassLoader::addClasses(array
 (
-	// Test
-	'HeimrichHannot\Request\Test\PostTest' => 'system/modules/request/test/tests/Request/Test/PostTest.php',
-
 	// Classes
-	'HeimrichHannot\Request\Request'       => 'system/modules/request/classes/Request.php',
+	'HeimrichHannot\Request\Request'       => 'system/modules/request/src/Request.php',
 ));

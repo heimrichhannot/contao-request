@@ -1,0 +1,21 @@
+language: php
+php:
+- 7.0
+- 7.1
+sudo: false
+notifications:
+  email:
+    recipients:
+    - digitales@heimrich-hannot.de
+    on_success: never
+    on_failure: always
+  hipchat:
+    rooms:
+      secure: CDFTZC38t++DZpUHA5eytr9AqxwBzqFupUS0ysgRC4KD+7sIhxCQuzNSuvzpgQ1TtpDt3DTt1yiv5y3gDgWIrlYZzD4Ul8iSUP/rLxRZ9Vj+xzGHzM61D+NsZj/qZJxzk1jTSkrgBE3HYbrHyqwhF8uVucugeTrVOaZaFQxSl0KLR898qIyrkVmBb9I3OUuDJNsymB1u+ly+c6Q6Hcu5rl95S9oNSWK8YjPP5M3jbMs72gXVnw1yEIV2Y8XXj4Z4//W+6OewUfrLkzQf9IbP1IbjLJmkvoZHXyyTlm9SFcmDCTNKkzsOYvLMQGsgzLRRXSXUlqL6BOfGANMDpqa7MwIv5FFQw2RS3KqBhEKzHJwtOyeoNqdqhSuf0cT8NS/6D6HQvKVMeOMIO0/hpzao2tIoG5MzOB0am5ha7mmSx28SqyuZqvSINtO6nnPvTUb0i/RHFh3ve6w6IsRII7eWO/YZcJBNcBKoG/nn1T0YmOpGwuOWO6lOXK+GCbddYxpSXT47KIkNaQ4KF6XlZl9s7101U92mZCU/3aRgmxKh2owk813MFPG1n2zZN5vo57QF00V0DIjRjRKuYT/lpVvcVk7xj41VrYEqWus8WOgFLS2wRVQzN9agByZfIn64OMvPo1dM/PvLujJVpBxzRI8xez7vMAc5IIHUHDC6R1yBkSQ=
+before_script:
+- travis_wait composer install --no-interaction
+script:
+- mkdir -p build/logs
+- php vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+after_script:
+- php vendor/bin/coveralls
