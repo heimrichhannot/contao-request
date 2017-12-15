@@ -1,7 +1,7 @@
 language: php
 php:
-- 7.0
-- 7.1
+- 5.6
+- 7.*
 env:
   - CONTAO_VERSION="3.5.*"
   - CONTAO_VERSION="4.4.*"
