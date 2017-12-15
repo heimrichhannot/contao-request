@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2017-05-09
+
+### Changed - 2017-12-15
+- changed getInstance function, add $_GET and $_POST to current instance if not empty. This adds contao unused $_GET items like autoitem to current request
+- adjusted tests
+- changed folder structur
+- added psr4 loader
+- added travis ci, php codestyle fixer and coversall
+
 ## [1.1.3] - 2017-05-09
 
 ### Fixed
