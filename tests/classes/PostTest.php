@@ -1,11 +1,9 @@
 <?php
-/**
- * Contao Open Source CMS
+
+/*
+ * Copyright (c) 2017 Heimrich & Hannot GmbH
  *
- * Copyright (c) 2016 Heimrich & Hannot GmbH
- *
- * @author  Rico Kaltofen <r.kaltofen@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0+
  */
 
 namespace HeimrichHannot\Request\Test;
@@ -15,6 +13,12 @@ use PHPUnit\Framework\TestCase;
 
 class PostTest extends TestCase
 {
+    protected function setUp()
+    {
+        // reset request parameter bag
+        Request::set(new \Symfony\Component\HttpFoundation\Request());
+    }
+
     public function testPostHtmlPage()
     {
         $strHtml =
@@ -31,7 +35,7 @@ class PostTest extends TestCase
     }
 
     /**
-     * Binary uuid should returned as binary
+     * Binary uuid should returned as binary.
      *
      * @test
      */
@@ -55,7 +59,7 @@ class PostTest extends TestCase
     }
 
     /**
-     * Binary uuid should returned as binary
+     * Binary uuid should returned as binary.
      *
      * @test
      */
@@ -75,7 +79,7 @@ class PostTest extends TestCase
      */
     public function testPost()
     {
-        $strInput    = '<p>foo <5 hier steht viel Text<span><b>Test <a href="http://example.org" onclick="alert(\'xss\')">Link</a></b></span></p><span> FOOBAR</span>';
+        $strInput = '<p>foo <5 hier steht viel Text<span><b>Test <a href="http://example.org" onclick="alert(\'xss\')">Link</a></b></span></p><span> FOOBAR</span>';
         $strExpected = '&#60;p&#62;foo &lt;5 hier steht viel Text&#60;span&#62;&#60;b&#62;Test Link&#60;/b&#62;&#60;/span&#62;&#60;/p&#62;&#60;span&#62; FOOBAR&#60;/span&#62;';
 
         Request::setPost('test', $strInput);
@@ -88,7 +92,7 @@ class PostTest extends TestCase
      */
     public function testHtmlPostWithDecodeEntities()
     {
-        $strInput    = '<p>foo <5 hier steht viel Text<span><b>Test <a href="http://example.org" onclick="alert(\'xss\')">Link</a></b></span></p><span> FOOBAR</span>';
+        $strInput = '<p>foo <5 hier steht viel Text<span><b>Test <a href="http://example.org" onclick="alert(\'xss\')">Link</a></b></span></p><span> FOOBAR</span>';
         $strExpected = '<p>foo <5 hier steht viel Text<span><b>Test Link</b></span></p><span> FOOBAR</span>';
 
         Request::setPost('test', $strInput);
@@ -101,7 +105,7 @@ class PostTest extends TestCase
      */
     public function testHtmlPostWithAllowedTagsAndDecodeEntities()
     {
-        $strInput    = '<p>foo <5 hier steht viel Text<span><b>Test <a href="http://example.org" onclick="alert(\'xss\')">Link</a></b></span></p><span> FOOBAR</span>';
+        $strInput = '<p>foo <5 hier steht viel Text<span><b>Test <a href="http://example.org" onclick="alert(\'xss\')">Link</a></b></span></p><span> FOOBAR</span>';
         $strExpected = '<p>foo <5 hier steht viel Text<span>&#60;b&#62;Test Link&#60;/b&#62;</span></p><span> FOOBAR</span>';
 
         Request::setPost('test', $strInput);
@@ -220,7 +224,6 @@ class PostTest extends TestCase
         return $arrList;
     }
 
-
     public function xssDataProvider()
     {
         // [0] => input
@@ -337,11 +340,5 @@ class PostTest extends TestCase
         ];
 
         return $arrList;
-    }
-
-    protected function setUp()
-    {
-        // reset request parameter bag
-        Request::set(new \Symfony\Component\HttpFoundation\Request());
     }
 }
