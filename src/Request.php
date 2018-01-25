@@ -67,7 +67,7 @@ class Request
 
         // handle \Contao\Input unused $_POST parameters
         if (!empty($_POST)) {
-            static::$objInstance->request->add($_GET);
+            static::$objInstance->request->add($_POST);
         }
 
         return static::$objInstance;

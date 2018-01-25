@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2018-01-25
+
+### Fixed
+- added mistakenly $_GET to $_POST data to current instance if not empty
+
 ## [1.2.0] - 2017-05-09
 
 ### Changed - 2017-12-15
