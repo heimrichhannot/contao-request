@@ -290,21 +290,21 @@ class PostTest extends TestCase
             ],
             [
                 '></SCRIPT>">\'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>',
-                '&gt;&#60;script&#62;alert&#40;String.fromCharCode&#40;88,83,83&#41;&#41;&#60;/script&#62;',
+                '&#62;&#60;script&#62;alert&#40;String.fromCharCode&#40;88,83,83&#41;&#41;&#60;/script&#62;',
                 '></SCRIPT><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>',
-                '&gt;&#60;script&#62;alert&#40;String.fromCharCode&#40;88,83,83&#41;&#41;&#60;/script&#62;',
+                '&#62;&#60;script&#62;alert&#40;String.fromCharCode&#40;88,83,83&#41;&#41;&#60;/script&#62;',
             ],
             [
                 ',\';!—"<XSS>=&{()}',
-                ',\';!&mdash;"&#60;xss&#62;&#61;&amp;{&#40;&#41;}&#60;/xss&#62;',
+                ',\';!—"&#60;xss&#62;&#61;&{&#40;&#41;}&#60;/xss&#62;',
                 ',\';!—"<XSS>=&{()}',
-                ',\';!&mdash;"&#60;xss&#62;&#61;&amp;{&#40;&#41;}&#60;/xss&#62;',
+                ',\';!—"&#60;xss&#62;&#61;&{&#40;&#41;}&#60;/xss&#62;',
             ],
             [
                 '\'\';!—"<XSS>=&{()}',
-                '\'\';!&mdash;"&#60;xss&#62;&#61;&amp;{&#40;&#41;}&#60;/xss&#62;',
+                '\'\';!—"&#60;xss&#62;&#61;&{&#40;&#41;}&#60;/xss&#62;',
                 '\'\';!—"<XSS>=&{()}',
-                '\'\';!&mdash;"&#60;xss&#62;&#61;&amp;{&#40;&#41;}&#60;/xss&#62;',
+                '\'\';!—"&#60;xss&#62;&#61;&{&#40;&#41;}&#60;/xss&#62;',
             ],
             [
                 '<IMG SRC=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>',
@@ -312,7 +312,7 @@ class PostTest extends TestCase
                 '<IMG SRC=javascript:alert(\'XSS\')>',
                 '',
             ],
-            ['"><%00script', '"&gt;&lt;%00script', '"><%00script', '"&gt;&lt;%00script'],
+            ['"><%00script', '"&#62;&lt;%00script', '"><%00script', '"&#62;&lt;%00script'],
             [
                 '"><%tag style="xss:expression(alert(123))">',
                 '',
@@ -321,15 +321,15 @@ class PostTest extends TestCase
             ],
             [
                 '">%uff1cscript%uff1ealert(\'XSS\');%uff1c/script%uff1e',
-                '"&gt;%uff1cscript%uff1ealert&#40;\'XSS\'&#41;;%uff1c/script%uff1e',
+                '"&#62;%uff1cscript%uff1ealert&#40;\'XSS\'&#41;;%uff1c/script%uff1e',
                 '">%uff1cscript%uff1ealert(\'XSS\');%uff1c/script%uff1e',
-                '"&gt;%uff1cscript%uff1ealert&#40;\'XSS\'&#41;;%uff1c/script%uff1e',
+                '"&#62;%uff1cscript%uff1ealert&#40;\'XSS\'&#41;;%uff1c/script%uff1e',
             ],
             [
                 '><DIV TYLE="background-image: url(javascript:alert(\'XSS\'))">',
-                '&gt;&#60;div tyle&#61;"background-image: url&#40;alert&#40;\'XSS\'&#41;&#41;"&#62;&#60;/div&#62;',
+                '&#62;&#60;div tyle&#61;"background-image: url&#40;alert&#40;\'XSS\'&#41;&#41;"&#62;&#60;/div&#62;',
                 '><DIV TYLE="background-image: url(javascript:alert(\'XSS\'))">',
-                '&gt;&#60;div tyle&#61;"background-image: url&#40;alert&#40;\'XSS\'&#41;&#41;"&#62;&#60;/div&#62;',
+                '&#62;&#60;div tyle&#61;"background-image: url&#40;alert&#40;\'XSS\'&#41;&#41;"&#62;&#60;/div&#62;',
             ],
             [
                 '"><%00 style="xss:expression(alert(123))">',

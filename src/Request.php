@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\Request;
 
+use Contao\StringUtil;
 use Symfony\Component\CssSelector\Exception\SyntaxErrorException;
 use Wa72\HtmlPageDom\HtmlPageCrawler;
 
@@ -90,8 +91,8 @@ class Request
     /**
      * Shorthand setter for query arguments ($_GET).
      *
-     * @param string $strKey   The requested field
-     * @param mixed  $varValue The input value
+     * @param string $strKey The requested field
+     * @param mixed $varValue The input value
      */
     public static function setGet($strKey, $varValue)
     {
@@ -110,8 +111,8 @@ class Request
     /**
      * Shorthand setter for request arguments ($_POST).
      *
-     * @param string $strKey   The requested field
-     * @param mixed  $varValue The input value
+     * @param string $strKey The requested field
+     * @param mixed $varValue The input value
      */
     public static function setPost($strKey, $varValue)
     {
@@ -127,9 +128,9 @@ class Request
     /**
      * Shorthand getter for query arguments ($_GET).
      *
-     * @param string $strKey            The requested field
-     * @param bool   $blnDecodeEntities If true, all entities will be decoded
-     * @param bool   $blnTidy           If true, varValue is tidied up
+     * @param string $strKey The requested field
+     * @param bool $blnDecodeEntities If true, all entities will be decoded
+     * @param bool $blnTidy If true, varValue is tidied up
      *
      * @return mixed If no $strkey is defined, return all cleaned query parameters, otherwise the cleaned requested query value
      */
@@ -153,11 +154,11 @@ class Request
     /**
      * XSS clean, decodeEntities, tidy/strip tags, encode special characters and encode inserttags and return save, cleaned value(s).
      *
-     * @param mixed $varValue            The input value
-     * @param bool  $blnDecodeEntities   If true, all entities will be decoded
-     * @param bool  $blnEncodeInsertTags If true, encode the opening and closing delimiters of insert tags
-     * @param bool  $blnTidy             If true, varValue is tidied up
-     * @param bool  $blnStrictMode       If true, the xss cleaner removes also JavaScript event handlers
+     * @param mixed $varValue The input value
+     * @param bool $blnDecodeEntities If true, all entities will be decoded
+     * @param bool $blnEncodeInsertTags If true, encode the opening and closing delimiters of insert tags
+     * @param bool $blnTidy If true, varValue is tidied up
+     * @param bool $blnStrictMode If true, the xss cleaner removes also JavaScript event handlers
      *
      * @return mixed The cleaned value
      */
@@ -205,12 +206,12 @@ class Request
     /**
      * XSS clean, decodeEntities, tidy/strip tags, encode special characters and encode inserttags and return save, cleaned value(s).
      *
-     * @param mixed  $varValue            The input value
-     * @param bool   $blnDecodeEntities   If true, all entities will be decoded
-     * @param bool   $blnEncodeInsertTags If true, encode the opening and closing delimiters of insert tags
-     * @param string $strAllowedTags      List of allowed html tags
-     * @param bool   $blnTidy             If true, varValue is tidied up
-     * @param bool   $blnStrictMode       If true, the xss cleaner removes also JavaScript event handlers
+     * @param mixed $varValue The input value
+     * @param bool $blnDecodeEntities If true, all entities will be decoded
+     * @param bool $blnEncodeInsertTags If true, encode the opening and closing delimiters of insert tags
+     * @param string $strAllowedTags List of allowed html tags
+     * @param bool $blnTidy If true, varValue is tidied up
+     * @param bool $blnStrictMode If true, the xss cleaner removes also JavaScript event handlers
      *
      * @return mixed The cleaned value
      */
@@ -258,10 +259,10 @@ class Request
     /**
      * XSS clean, preserve basic entities encode inserttags and return raw unsafe but filtered value.
      *
-     * @param mixed $varValue            The input value
-     * @param bool  $blnEncodeInsertTags If true, encode the opening and closing delimiters of insert tags
-     * @param bool  $blnTidy             If true, varValue is tidied up
-     * @param bool  $blnStrictMode       If true, the xss cleaner removes also JavaScript event handlers
+     * @param mixed $varValue The input value
+     * @param bool $blnEncodeInsertTags If true, encode the opening and closing delimiters of insert tags
+     * @param bool $blnTidy If true, varValue is tidied up
+     * @param bool $blnStrictMode If true, the xss cleaner removes also JavaScript event handlers
      *
      * @return mixed The cleaned value
      */
@@ -315,10 +316,10 @@ class Request
     /**
      * Shorthand getter for request arguments ($_POST).
      *
-     * @param string $strKey            The requested field
-     * @param bool   $blnDecodeEntities If true, all entities will be decoded
-     * @param bool   $blnTidy           If true, varValue is tidied up
-     * @param bool   $blnStrictMode     If true, the xss cleaner removes also JavaScript event handlers
+     * @param string $strKey The requested field
+     * @param bool $blnDecodeEntities If true, all entities will be decoded
+     * @param bool $blnTidy If true, varValue is tidied up
+     * @param bool $blnStrictMode If true, the xss cleaner removes also JavaScript event handlers
      *
      * @return mixed If no $strKey is defined, return all cleaned query parameters, otherwise the cleaned requested query value
      */
@@ -342,11 +343,11 @@ class Request
     /**
      * Shorthand getter for request arguments ($_POST) preserving allowed HTML tags.
      *
-     * @param string $strKey            The requested field
-     * @param bool   $blnDecodeEntities If true, all entities will be decoded
-     * @param string $strAllowedTags    List of allowed html tags
-     * @param bool   $blnTidy           If true, varValue is tidied up
-     * @param bool   $blnStrictMode     If true, the xss cleaner removes also JavaScript event handlers
+     * @param string $strKey The requested field
+     * @param bool $blnDecodeEntities If true, all entities will be decoded
+     * @param string $strAllowedTags List of allowed html tags
+     * @param bool $blnTidy If true, varValue is tidied up
+     * @param bool $blnStrictMode If true, the xss cleaner removes also JavaScript event handlers
      *
      * @return mixed If no $strKey is defined, return all cleaned query parameters, otherwise the cleaned requested query value
      */
@@ -370,9 +371,9 @@ class Request
     /**
      * Shorthand getter for request arguments ($_POST), returning raw, unsafe but filtered values.
      *
-     * @param string $strKey        The requested field
-     * @param bool   $blnTidy       If true, varValue is tidied up
-     * @param bool   $blnStrictMode If true, the xss cleaner removes also JavaScript event handlers
+     * @param string $strKey The requested field
+     * @param bool $blnTidy If true, varValue is tidied up
+     * @param bool $blnStrictMode If true, the xss cleaner removes also JavaScript event handlers
      *
      * @return mixed If no $strkey is defined, return all cleaned query parameters, otherwise the cleaned requested query value
      */
@@ -396,9 +397,9 @@ class Request
     /**
      * Clean a value and try to prevent XSS attacks.
      *
-     * @param mixed $varValue      A string or array
-     * @param bool  $blnStrictMode If true, the function removes also JavaScript event handlers
-     * @param bool  $blnTidy       If true, varValue is tidied up
+     * @param mixed $varValue A string or array
+     * @param bool $blnStrictMode If true, the function removes also JavaScript event handlers
+     * @param bool $blnTidy If true, varValue is tidied up
      *
      * @return mixed The cleaned string or array
      */
@@ -432,9 +433,9 @@ class Request
     /**
      * Tidy an value.
      *
-     * @param string $varValue          Input value
-     * @param string $strAllowedTags    Allowed tags as string `<p><span>`
-     * @param bool   $blnDecodeEntities If true, all entities will be decoded
+     * @param string $varValue Input value
+     * @param string $strAllowedTags Allowed tags as string `<p><span>`
+     * @param bool $blnDecodeEntities If true, all entities will be decoded
      *
      * @return string The tidied string
      */
@@ -469,7 +470,7 @@ class Request
         $objCrawler = new HtmlPageCrawler($varValue);
 
         if (!$objCrawler->isHtmlDocument()) {
-            $objCrawler = new HtmlPageCrawler('<div id="tidyWrapperx123x123xawec3">'.$varValue.'</div>');
+            $objCrawler = new HtmlPageCrawler('<div id="tidyWrapperx123x123xawec3">' . $varValue . '</div>');
         }
 
         $arrAllowedTags = explode('<', str_replace('>', '', $strAllowedTags));
@@ -503,6 +504,9 @@ class Request
                 $varValue = $objCrawler->saveHTML();
             }
 
+            // HTML documents or fragments, Crawler first converts all non-ASCII characters to entities (see: https://github.com/wasinger/htmlpagedom/issues/5)
+            $varValue = StringUtil::decodeEntities($varValue);
+
             // trim last [nbsp] occurance
             $varValue = preg_replace('@(\[nbsp\])+@', '', $varValue);
         } catch (SyntaxErrorException $e) {
@@ -515,9 +519,9 @@ class Request
         }
 
         // encode unwanted tag opening and closing brakets
-        $arrSearch = ['[[xlt]]', '[[xgt]]'];
+        $arrSearch  = ['[[xlt]]', '[[xgt]]'];
         $arrReplace = ['&#60;', '&#62;'];
-        $varValue = str_replace($arrSearch, $arrReplace, $varValue);
+        $varValue   = str_replace($arrSearch, $arrReplace, $varValue);
 
         return $varValue;
     }
@@ -525,8 +529,8 @@ class Request
     /**
      * Restore basic entities.
      *
-     * @param string $strBuffer         The string with the tags to be replaced
-     * @param bool   $blnDecodeEntities If true, all entities will be decoded
+     * @param string $strBuffer The string with the tags to be replaced
+     * @param bool $blnDecodeEntities If true, all entities will be decoded
      *
      * @return string The string with the original entities
      */
