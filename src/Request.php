@@ -445,6 +445,12 @@ class Request
             return $varValue;
         }
 
+        // do not tidy non-xss critical characters for performance
+        if(!preg_match('#"|\'|<|>#', \StringUtil::decodeEntities($varValue)))
+        {
+            return $varValue;
+        }
+
         // remove illegal white spaces after closing tag slash <br / >
         $varValue = preg_replace('@\/(\s+)>@', '/>', $varValue);
 
