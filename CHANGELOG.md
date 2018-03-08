@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2018-03-08
+
+### Added
+- `{{request_get::*}}` and `{{request_post::*}}` insert tag helpers
+
 ## [1.2.4] - 2018-02-15
 
 ### Fixed

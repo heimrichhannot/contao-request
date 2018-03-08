@@ -27,3 +27,14 @@ Contao | Request
 `\Environment::get('isAjaxRequest')` | `\HeimrichHannot\Request\Request::getInstance()->isXmlHttpRequest()`
 
 
+## Insert tags
+
+For convenience we provide insert tags for some request method parameters.
+
+**CAUTION: If you use the insert tags in SQL-Query Context, be sure that you escape the insert tag values by using e.g. `prepare('field=?'')->execute('{{request_get::auto_item}}'')` **
+
+
+Insert tag | Description
+--- | --------- 
+`{{request_get::*}}` | This tag will be replaced with the XSS protected value of the query parameter (replace * with the name of the query parameter, e.g. `auto_item`)
+`{{request_post::*}}` | This tag will be replaced with the XSS protected value of the post parameter (replace * with the name of the post parameter, e.g. `FORM_SUBMIT`)

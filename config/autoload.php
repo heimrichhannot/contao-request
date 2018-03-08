@@ -12,17 +12,16 @@
 /**
  * Register the namespaces
  */
-ClassLoader::addNamespaces(array
-(
-	'HeimrichHannot',
-));
+ClassLoader::addNamespaces([
+    'HeimrichHannot',
+]);
 
 
 /**
  * Register the classes
  */
-ClassLoader::addClasses(array
-(
-	// Classes
-	'HeimrichHannot\Request\Request'       => 'system/modules/request/src/Request.php',
-));
+ClassLoader::addClasses([
+    // Classes
+    'HeimrichHannot\Request\Request'                          => 'system/modules/request/src/Request.php',
+    'HeimrichHannot\Request\EventListener\InsertTagsListener' => 'system/modules/request/src/EventListener/InsertTagsListener.php'
+]);
