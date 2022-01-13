@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 2022-01-13
+- Changed: allow wa72/htmlpagedom v2
+
 ## [1.4.0] - 2021-08-31
 
 - Added: support for php 8
